@@ -4,7 +4,7 @@ import albumentations as A
 
 from sidebar_utils import handle_uploaded_image_file, spacing
 
-st.set_page_config(page_title="Horizontal Flip Demo", page_icon="📈",layout="wide")
+st.set_page_config(page_title="Horizontal Flip Demo", page_icon="📈")
 
 st.markdown("# Horizontal Flip Demo")
 st.sidebar.header("Image selection")

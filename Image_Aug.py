@@ -1,8 +1,7 @@
 import streamlit as st
 from matplotlib import pyplot as plt
 import albumentations as A
-from streamlit_lottie import st_lottie
-from PIL import Image
+
 # from sidebar_utils import handle_uploaded_image_file
 plt.rcParams["figure.figsize"] = (10, 7)
 import io
@@ -10,45 +9,6 @@ import io
 import streamlit as st
 import PIL.Image
 import numpy as np
-st.set_page_config(layout="wide", page_title="Image Augmentation Visualizer")
-hide_st_style="""
-<style>
-footer{visibility:hidden;}
-</style>"""
-def local_css(file_name):
-    with open(file_name) as f:
-        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
-
-
-local_css("style.css")
-
-st.markdown("""
-<div class="container">
-        <span class="text1">welcome to</span>
-        <span class="text2">Image Augmentation</span>
-    </div>""",unsafe_allow_html=True)
-st.markdown(" ")
-st.markdown(" ")
-st.markdown("***")
-st.markdown(''' 
-This is the part of **Image Augmentation** created in Streamlit. 
-**Credit:** App built in `Python` + `Streamlit` by Deepak and Nehansh.
-''')
-
-st.markdown("""
-<style>
-.big-font {
-    font-size:20px !important;
-}
-</style>
-""", unsafe_allow_html=True)
-icol1,icol2=st.columns(2)
-with icol1:
-   st.markdown(''' 📊⤵ <p class="big-font"> **For**  `DATA PRE-PROCESSING :` [click for Data Pre-Processing](https://data-preprocessing-toolkit-v1.streamlit.app/)</p> ''', unsafe_allow_html=True)
-with icol2: 
-    st.markdown(''' 📑⤵ <p class="big-font"> **For**  `TEXT EDA :` [click for Text EDA](https://texteda.streamlit.app/)</p> ''', unsafe_allow_html=True)
-
-
 
 
 def plot_original_image(img, additional_information=None):
@@ -92,8 +52,6 @@ def create_pipeline(transformations: list):
     return pipeline
 
 
-
-
 def spacing():
     st.markdown("<br></br>", unsafe_allow_html=True)
 
@@ -127,10 +85,7 @@ def plot_audio_transformations(original_image, pipeline: A.Compose, additional_i
             st.image(modified_image)
 
 
-
-
 def index_to_transformation(index: int):
-
     if index == 0:
         return A.GaussNoise(p=1.0, var_limit=(0.25, 0.5))
     elif index == 1:
@@ -167,41 +122,34 @@ def main():
     placeholder2 = st.empty()
     placeholder.markdown(
         "# Visualize an image augmentation pipeline\n"
-        "### To Perform Individual Augmentation Techniques choose them in side bar .\n"
+        "### Select the components of the pipeline in the sidebar.\n"
         # "Once you have chosen the augmentation techniques, select or upload an image.\n"
+        "Then click 'Apply' to start!\n"
     )
     placeholder2.markdown(
-        "To Perform different techniques at once then choose the below checkboxes and Then click Apply")
-    st.markdown("Choose the transformations here:")
-    
-    col1,col2,col3,col4=st.columns(4)
-    with col1:
-        gaussian_noise = st.checkbox("GaussianNoise")
-    with col2:
-        horizontal_flip = st.checkbox("HorizontalFlip")
-    with col3:
-        vertical_flip = st.checkbox("VerticalFlip")
-    with col4:
-        random_brightness = st.checkbox("RandomBrightness")
-    with col1:
-        advanced_blur = st.checkbox("AdvancedBlur")
-    with col2:
-        channel_shuffle = st.checkbox("ChannelShuffle")
-    with col3:
-        channel_dropout = st.checkbox("ChannelDropout")
-    with col4:
-        random_contrast = st.checkbox("RandomContrast")
+        "After clicking start, the individual steps of the pipeline are visualized. The ouput of the previous step is the input to the next step."
+    )
+    st.sidebar.markdown("Choose the transformations here:")
+    gaussian_noise = st.sidebar.checkbox("GaussianNoise")
+
+    horizontal_flip = st.sidebar.checkbox("HorizontalFlip")
+    vertical_flip = st.sidebar.checkbox("VerticalFlip")
+    random_brightness = st.sidebar.checkbox("RandomBrightness")
+    advanced_blur = st.sidebar.checkbox("AdvancedBlur")
+    channel_shuffle = st.sidebar.checkbox("ChannelShuffle")
+    channel_dropout = st.sidebar.checkbox("ChannelDropout")
+    random_contrast = st.sidebar.checkbox("RandomContrast")
 
     # st.sidebar.markdown("---")
     # st.sidebar.markdown("(Optional) Upload an image file here:")
     # file_uploader = st.sidebar.file_uploader(label="", type=[".png", ".jpg", ".jpeg"])
-    st.markdown("select a sample file here:")
-    selected_provided_file = st.selectbox(
+    st.sidebar.markdown("select a sample file here:")
+    selected_provided_file = st.sidebar.selectbox(
         label="", options=["Flower", "Dog"]
     )
 
-    st.markdown("---")
-    if st.button("Apply"):
+    st.sidebar.markdown("---")
+    if st.sidebar.button("Apply"):
         placeholder.empty()
         placeholder2.empty()
         transformations = [
@@ -221,4 +169,5 @@ def main():
         )
 
 if __name__ == "__main__":
+    st.set_page_config(layout="wide", page_title="Image Augmentation Visualizer")
     main()
