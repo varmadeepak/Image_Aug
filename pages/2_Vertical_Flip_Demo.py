@@ -4,12 +4,12 @@ import albumentations as A
 
 from sidebar_utils import handle_uploaded_image_file, spacing
 
-st.set_page_config(page_title="Horizontal Flip Demo", page_icon="📈",layout="wide")
+st.set_page_config(page_title="Vertical Flip Demo", page_icon="📈",layout="wide")
 
-st.markdown("# Horizontal Flip Demo")
+st.markdown("# Vertical Flip Demo")
 st.sidebar.header("Image selection")
 st.write(
-    """This demo shows the effects of `HorizontalFlip` transformation.
+    """This demo shows the effects of the `VerticalFlip` transformation.
     Enjoy!"""
 )
 
@@ -24,7 +24,7 @@ st.sidebar.markdown("---")
 
 @st.cache
 def get_transformation():
-    return A.HorizontalFlip(always_apply=True)
+    return A.VerticalFlip(always_apply=True)
 
 
 def plot_original_image(img, additional_information=None):
